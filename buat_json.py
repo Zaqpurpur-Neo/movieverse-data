@@ -41,6 +41,11 @@ m = m[
 ]
 m = m[m["release_date"].astype(str).str.len() == 10]
 m["id"] = m["id"].astype(int)
+
+if os.path.exists("poster_mati.json"):
+    mati = set(json.load(open("poster_mati.json")))
+    m = m[~m["id"].isin(mati)]
+
 m = m.drop_duplicates("id").sort_values("vote_count", ascending=False)
 ids = set(m["id"])
 
